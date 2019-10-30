@@ -21,6 +21,8 @@ with open('1.txt', 'r') as file1:
 
 same.discard('\n')
 
-with open('some_output_file.txt', 'w') as file_out:
-    for line in same:
+print('check the output in the file output.txt')
+with open('output.txt', 'w') as file_out:
+    for line in same:        
+        print(line)
         file_out.write(line)
