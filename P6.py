@@ -1,28 +1,18 @@
-# importing required modules 
 from zipfile import ZipFile 
-  
-# specifying the zip file name 
-file_name = "namelists.zip"
-  
+import sys
+file_name = sys.argv[1]
 # opening the zip file in READ mode 
 with ZipFile(file_name, 'r') as zip: 
-    # printing all the contents of the zip file 
-    zip.printdir() 
-  
-    # extracting all the files 
-    print('Extracting files now...') 
-    zip.extractall() 
-    print('Done!') 
-
-with open('1.txt', 'r') as file1:
-    with open('2.txt', 'r') as file2:
-        with open('3.txt', 'r') as file3:
-            same = set(file1).intersection(file2).intersection(file3)
-
-same.discard('\n')
-
-print('check the output in the file output.txt')
+    AllFiles = zip.namelist()
+    zip.extractall()
+    print(AllFiles)   
+    files = [open(name) for name in AllFiles]
+    sets = [set(line.strip() for line in file) 
+            for file in files]
+    common = set.intersection(*sets)
+    print(common)
 with open('output.txt', 'w') as file_out:
-    for line in same:        
+    for line in common:        
         print(line)
-        file_out.write(line)
+        file_out.write(line + '\n')
+file_out.close()
